@@ -193,7 +193,7 @@ pub fn find_libunwind_dir(
 pub fn find_package_root_path(
     workspace: &Workspace,
     config: &AndroidConfig,
-    package_name: &str,
+    package_names: &[&str],
 ) -> PathBuf {
     use cargo::{
         core::{compiler, resolver},
@@ -231,7 +231,8 @@ pub fn find_package_root_path(
     let miniquad_pkg = ws_resolve
         .pkg_set
         .packages()
-        .find(|package| package.name() == package_name).expect("cargo quad can't build a non-miniquad package, but no miniquad is found in the dependencies tree!");
+        .find(|package| package_names.iter().any(|name| package.name() == *name))
+        .expect("cargo quad can't build a non-miniquad package, but no miniquad is found in the dependencies tree!");
 
     miniquad_pkg.root().to_path_buf()
 }

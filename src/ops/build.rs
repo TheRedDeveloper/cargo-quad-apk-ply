@@ -39,7 +39,7 @@ pub fn build(
 ) -> CargoResult<BuildResult> {
     let root_source_path = workspace.root();
     let root_build_dir = util::get_root_build_directory(workspace, config);
-    let miniquad_root_path = util::find_package_root_path(workspace, config, "miniquad");
+    let miniquad_root_path = util::find_package_root_path(workspace, config, &["miniquad", "miniquad-ply"]);
     let java_files = util::collect_java_files(workspace, config);
     let shared_libraries = compile::build_shared_libraries(
         workspace,
